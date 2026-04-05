@@ -14,6 +14,7 @@ import type { Application } from './renderApplication';
 import type { ComponentType, Node } from 'react';
 
 import invariant from 'fbjs/lib/invariant';
+import { SpatialNavigation } from 'focus-nav';
 import unmountComponentAtNode from '../unmountComponentAtNode';
 import renderApplication, { getApplication } from './renderApplication';
 
@@ -112,6 +113,11 @@ export default class AppRegistry {
   }
 
   static runApplication(appKey: string, appParameters: Object): Application {
+    SpatialNavigation.init({
+      shouldFocusDOMNode: true,
+      useGetBoundingClientRect: true
+    });
+
     const isDevelopment =
       process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test';
     if (isDevelopment) {

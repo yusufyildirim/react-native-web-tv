@@ -8,20 +8,26 @@
 import AppRegistry from '..';
 import React from 'react';
 import { act } from '@testing-library/react';
+import { SpatialNavigation } from 'focus-nav';
 const NoopComponent = () => React.createElement('div');
 
 describe.each([['concurrent'], ['legacy']])('AppRegistry', (mode) => {
   describe('runApplication', () => {
     let rootTag;
+    let initSpy;
 
     beforeEach(() => {
       rootTag = document.createElement('div');
       rootTag.id = 'react-root';
       document.body.appendChild(rootTag);
+      initSpy = jest
+        .spyOn(SpatialNavigation, 'init')
+        .mockImplementation(() => undefined);
     });
 
     afterEach(() => {
       document.body.removeChild(rootTag);
+      initSpy.mockRestore();
     });
 
     test('callback after render', () => {
@@ -102,6 +108,24 @@ describe.each([['concurrent'], ['legacy']])('AppRegistry', (mode) => {
         .map((cssRule) => cssRule.cssText);
 
       expect(cssText).toMatchSnapshot();
+    });
+
+    test('initializes spatial navigation before the app runs', () => {
+      AppRegistry.registerComponent('App', () => NoopComponent);
+
+      act(() => {
+        AppRegistry.runApplication('App', {
+          initialProps: {},
+          rootTag,
+          mode
+        });
+      });
+
+      expect(initSpy).toHaveBeenCalledTimes(1);
+      expect(initSpy).toHaveBeenCalledWith({
+        shouldFocusDOMNode: true,
+        useGetBoundingClientRect: true
+      });
     });
   });
 });
