@@ -9,6 +9,7 @@ import React from 'react';
 import Pressable from '../';
 import { createEventTarget } from 'dom-event-testing-library';
 import { act, render } from '@testing-library/react';
+import { SpatialNavigation } from 'focus-nav';
 
 describe('components/Pressable', () => {
   test('default', () => {
@@ -97,6 +98,38 @@ describe('components/Pressable', () => {
     });
     expect(onBlur).toBeCalled();
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('focus interaction', () => {
+    let container;
+
+    act(() => {
+      SpatialNavigation.init({
+        useGetBoundingClientRect: true
+      });
+      ({ container } = render(
+        <Pressable
+          id="pressable:test-focus"
+          style={({ focused }) => [focused && { outline: 'focus-ring' }]}
+        >
+          {({ focused }) =>
+            focused ? <div data-testid="spatial-focus-content" /> : null
+          }
+        </Pressable>
+      ));
+    });
+
+    expect(container.firstChild).toMatchSnapshot();
+
+    act(() => {
+      SpatialNavigation.setFocus('pressable:test-focus');
+    });
+
+    expect(container.firstChild).toMatchSnapshot();
+
+    act(() => {
+      SpatialNavigation.destroy();
+    });
   });
 
   test('focus interaction (disabled)', () => {

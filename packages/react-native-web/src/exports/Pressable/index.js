@@ -15,6 +15,7 @@ import type { ViewProps } from '../View';
 
 import * as React from 'react';
 import { forwardRef, memo, useMemo, useState, useRef } from 'react';
+import { useFocusable } from 'focus-nav';
 import useMergeRefs from '../../modules/useMergeRefs';
 import useHover from '../../modules/useHover';
 import usePressEvents from '../../modules/usePressEvents';
@@ -96,9 +97,16 @@ function Pressable(props: Props, forwardedRef): React.Node {
   const [hovered, setHovered] = useForceableState(testOnly_hovered === true);
   const [focused, setFocused] = useForceableState(false);
   const [pressed, setPressed] = useForceableState(testOnly_pressed === true);
+  const focusKey = props.id ?? props.nativeID;
 
   const hostRef = useRef(null);
-  const setRef = useMergeRefs(forwardedRef, hostRef);
+  const { ref: focusableRef } = useFocusable({
+    focusKey,
+    focusable: disabled !== true,
+    simulateClick: disabled !== true
+  });
+
+  const setRef = useMergeRefs(forwardedRef, hostRef, focusableRef);
 
   const pressConfig = useMemo(
     () => ({
@@ -140,7 +148,11 @@ function Pressable(props: Props, forwardedRef): React.Node {
     onHoverEnd: onHoverOut
   });
 
-  const interactionState = { hovered, focused, pressed };
+  const interactionState = {
+    hovered,
+    focused,
+    pressed
+  };
 
   const blurHandler = React.useCallback(
     (e) => {
