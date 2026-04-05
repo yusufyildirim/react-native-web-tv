@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "focus-nav",
+  "version": "1.0.0",
+  "description": "A modified version of @noriginmedia/norigin-spatial-navigation",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint . --fix --max-warnings=0",
+    "build": "webpack --config webpack.config.js",
+    "dev": "webpack --config webpack.config.js --watch",
+    "type-check": "tsc --noEmit",
+    "generate-types": "tsc --skipLibCheck --strictNullChecks false --emitDeclarationOnly",
+    "postinstall": "npm run build && npm run generate-types"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "react": "18.3.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.76.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^5.9.3",
+    "@types/lodash": "^4.14.198",
+    "@types/eslint": "9.6.1"
+  },
+  "license": "MIT"
+}
