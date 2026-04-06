@@ -1,4 +1,4 @@
-declare module "focus-nav" {
+declare module "@react-native-tvos/focus-nav" {
   import type { Context } from 'react';
 
   declare export type Direction = 'up' | 'down' | 'left' | 'right';

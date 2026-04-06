@@ -9,7 +9,7 @@ import React from 'react';
 import View from '../';
 import { createEventTarget, setPointerEvent } from 'dom-event-testing-library';
 import { act, render } from '@testing-library/react';
-import { SpatialNavigation } from 'focus-nav';
+import { SpatialNavigation } from '@react-native-tvos/focus-nav';
 
 describe('components/View', () => {
   test('default', () => {

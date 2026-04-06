@@ -13,7 +13,11 @@ import type { PlatformMethods } from '../../types';
 import type { ViewProps } from '../View/types';
 
 import * as React from 'react';
-import { FocusContext, SpatialNavigation, useFocusable } from 'focus-nav';
+import {
+  FocusContext,
+  SpatialNavigation,
+  useFocusable
+} from '@react-native-tvos/focus-nav';
 import useMergeRefs from '../../modules/useMergeRefs';
 import View from '../View';
 

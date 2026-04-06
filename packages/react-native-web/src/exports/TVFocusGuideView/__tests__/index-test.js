@@ -9,7 +9,7 @@ import React from 'react';
 import TVFocusGuideView from '../';
 import View from '../../View';
 import { act, render } from '@testing-library/react';
-import { SpatialNavigation } from 'focus-nav';
+import { SpatialNavigation } from '@react-native-tvos/focus-nav';
 
 describe('components/TVFocusGuideView', () => {
   let didInit = false;

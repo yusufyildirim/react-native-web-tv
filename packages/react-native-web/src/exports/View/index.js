@@ -14,7 +14,7 @@ import type { PlatformMethods } from '../../types';
 import type { ViewProps } from './types';
 
 import * as React from 'react';
-import { useFocusable } from 'focus-nav';
+import { useFocusable } from '@react-native-tvos/focus-nav';
 import createElement from '../createElement';
 import * as forwardedProps from '../../modules/forwardedProps';
 import pick from '../../modules/pick';

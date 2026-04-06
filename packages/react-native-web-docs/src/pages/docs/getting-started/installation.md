@@ -21,7 +21,7 @@ npm install react-dom {{ site.installCommand }}
 The Babel plugin is recommended for build-time optimizations.
 
 ```shell
-npm install --save-dev babel-plugin-react-native-web
+npm install --save-dev @react-native-tvos/babel-plugin-web-tv
 ```
 
 ---
@@ -39,6 +39,6 @@ npm install --save-dev babel-plugin-react-native-web
 ```shell
 npx create-react-app my-app
 cd my-app
-npm install react-native-web@npm:react-native-web-tv
+npm install react-native-web@npm:@react-native-tvos/web-tv
 npm start
 ```

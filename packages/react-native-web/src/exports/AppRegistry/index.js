@@ -14,7 +14,7 @@ import type { Application } from './renderApplication';
 import type { ComponentType, Node } from 'react';
 
 import invariant from 'fbjs/lib/invariant';
-import { SpatialNavigation } from 'focus-nav';
+import { SpatialNavigation } from '@react-native-tvos/focus-nav';
 import unmountComponentAtNode from '../unmountComponentAtNode';
 import renderApplication, { getApplication } from './renderApplication';
 

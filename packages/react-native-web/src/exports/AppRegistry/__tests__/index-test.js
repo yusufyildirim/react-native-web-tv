@@ -8,7 +8,7 @@
 import AppRegistry from '..';
 import React from 'react';
 import { act } from '@testing-library/react';
-import { SpatialNavigation } from 'focus-nav';
+import { SpatialNavigation } from '@react-native-tvos/focus-nav';
 const NoopComponent = () => React.createElement('div');
 
 describe.each([['concurrent'], ['legacy']])('AppRegistry', (mode) => {

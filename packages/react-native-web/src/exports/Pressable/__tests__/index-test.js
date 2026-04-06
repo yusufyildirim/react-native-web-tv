@@ -9,7 +9,7 @@ import React from 'react';
 import Pressable from '../';
 import { createEventTarget } from 'dom-event-testing-library';
 import { act, render } from '@testing-library/react';
-import { SpatialNavigation } from 'focus-nav';
+import { SpatialNavigation } from '@react-native-tvos/focus-nav';
 
 describe('components/Pressable', () => {
   test('default', () => {

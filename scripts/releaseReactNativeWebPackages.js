@@ -15,7 +15,7 @@ const version = argv._[0];
 const skipGit = argv['skip-git'];
 const oneTimeCode = argv.otp;
 const publishNameOverrides = {
-  'react-native-web': 'react-native-web-tv'
+  'react-native-web': '@react-native-tvos/web-tv'
 };
 const releaseWorkspaceMatchers = ['react-native-web', 'focus-nav'];
 

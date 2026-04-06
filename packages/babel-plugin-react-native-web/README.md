@@ -1,4 +1,4 @@
-# babel-plugin-react-native-web
+# @react-native-tvos/babel-plugin-web-tv
 
 [![npm version][package-badge]][package-url] [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
 
@@ -7,18 +7,18 @@ any modules not required by your app (keeping bundle size down).
 
 ## Installation
 
-```
-npm install --save-dev babel-plugin-react-native-web
+```sh
+npm install --save-dev @react-native-tvos/babel-plugin-web-tv
 ```
 
 ## Usage
 
 **.babelrc**
 
-```
+```json
 {
   "plugins": [
-    ["react-native-web", { commonjs: true }]
+    ["@react-native-tvos/babel-plugin-web-tv", { commonjs: true }]
   ]
 }
 ```
@@ -48,5 +48,5 @@ import StyleSheet from 'react-native-web/dist/exports/StyleSheet';
 import View from 'react-native-web/dist/exports/View';
 ```
 
-[package-badge]: https://img.shields.io/npm/v/babel-plugin-react-native-web.svg?style=flat
-[package-url]: https://www.npmjs.com/package/babel-plugin-react-native-web
+[package-badge]: https://img.shields.io/npm/v/%40react-native-tvos%2Fbabel-plugin-web-tv.svg?style=flat
+[package-url]: https://www.npmjs.com/package/@react-native-tvos/babel-plugin-web-tv

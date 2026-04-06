@@ -94,7 +94,7 @@ The project's Babel plugin (see [Installation]({{ '/docs/installation' | url }})
 
 ```js
 {
-  "plugins": ['react-native-web']
+  "plugins": ['@react-native-tvos/babel-plugin-web-tv']
 }
 ```
 
