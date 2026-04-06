@@ -1,6 +1,5 @@
 {
   "name": "focus-nav",
-  "version": "0.21.2",
   "description": "Spatial navigation primitives used by react-native-web-tv",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

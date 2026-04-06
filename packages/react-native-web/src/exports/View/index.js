@@ -184,26 +184,24 @@ const FocusableView = React.forwardRef((props, forwardedRef) => {
     focusKey,
     onBlur: () => {
       const node = hostRef.current;
+      const onBlur = props.onBlur;
 
-      if (
-        node != null &&
-        !focusHandledByDOMRef.current &&
-        props.onBlur != null
-      ) {
-        props.onBlur(createSpatialFocusEvent('blur', node));
+      if (node != null && !focusHandledByDOMRef.current && onBlur != null) {
+        onBlur(createSpatialFocusEvent('blur', node));
       }
 
       focusHandledByDOMRef.current = false;
     },
     onFocus: () => {
       const node = hostRef.current;
+      const onFocus = props.onFocus;
       const focusHandledByDOM =
         typeof document !== 'undefined' && document.activeElement === node;
 
       focusHandledByDOMRef.current = focusHandledByDOM;
 
-      if (node != null && !focusHandledByDOM && props.onFocus != null) {
-        props.onFocus(createSpatialFocusEvent('focus', node));
+      if (node != null && !focusHandledByDOM && onFocus != null) {
+        onFocus(createSpatialFocusEvent('focus', node));
       }
     },
     simulateClick: true
