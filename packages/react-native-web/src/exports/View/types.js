@@ -241,6 +241,7 @@ export type ViewProps = {
   href?: ?string,
   hrefAttrs?: ?{ download?: ?boolean, rel?: ?string, target?: ?string },
   focusable?: ?boolean,
+  hasTVPreferredFocus?: ?boolean,
   pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto',
   nativeID?: ?string
 };

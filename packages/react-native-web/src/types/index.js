@@ -73,4 +73,5 @@ export interface PlatformMethods {
     onSuccess: LayoutCallback,
     onFail: () => void
   ) => void;
+  requestTVFocus?: () => boolean;
 }

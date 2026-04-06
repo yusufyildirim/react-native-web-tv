@@ -263,6 +263,63 @@ describe('components/View', () => {
     });
   });
 
+  test('preferred focus interaction (spatial navigation)', () => {
+    const onFocus = jest.fn();
+    const ref = React.createRef();
+
+    act(() => {
+      SpatialNavigation.init({
+        shouldFocusDOMNode: true,
+        useGetBoundingClientRect: true
+      });
+      render(
+        <View
+          hasTVPreferredFocus={true}
+          id="view:test-preferred-focus"
+          onFocus={onFocus}
+          ref={ref}
+        />
+      );
+    });
+
+    expect(onFocus).toBeCalled();
+    expect(SpatialNavigation.getCurrentFocusKey()).toBe(
+      'view:test-preferred-focus'
+    );
+    expect(document.activeElement).toBe(ref.current);
+
+    act(() => {
+      SpatialNavigation.destroy();
+    });
+  });
+
+  test('node can request preferred TV focus imperatively', () => {
+    const ref = React.createRef();
+    let didFocus;
+
+    act(() => {
+      SpatialNavigation.init({
+        shouldFocusDOMNode: true,
+        useGetBoundingClientRect: true
+      });
+      render(<View focusable={true} id="view:test-request-focus" ref={ref} />);
+    });
+
+    expect(ref.current.__spatialFocusKey).toBe('view:test-request-focus');
+    act(() => {
+      didFocus = ref.current.requestTVFocus();
+    });
+    expect(didFocus).toBe(true);
+    expect(SpatialNavigation.getCurrentFocusKey()).toBe(
+      'view:test-request-focus'
+    );
+    expect(document.activeElement).toBe(ref.current);
+
+    act(() => {
+      SpatialNavigation.destroy();
+    });
+  });
+
   describe('prop "onPointerDown"', () => {
     beforeEach(() => {
       setPointerEvent(true);

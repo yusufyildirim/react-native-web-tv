@@ -176,7 +176,11 @@ const FocusableView = React.forwardRef((props, forwardedRef) => {
   const hostRef = React.useRef(null);
   const focusHandledByDOMRef = React.useRef(false);
   const focusKey = props.id ?? props.nativeID;
-  const { ref: focusableRef } = useFocusable({
+  const {
+    ref: focusableRef,
+    focusKey: spatialFocusKey,
+    focusSelf
+  } = useFocusable({
     focusKey,
     onBlur: () => {
       const node = hostRef.current;
@@ -204,11 +208,38 @@ const FocusableView = React.forwardRef((props, forwardedRef) => {
     },
     simulateClick: true
   });
+
+  const setSpatialRef = React.useCallback(
+    (node) => {
+      if (node == null) return;
+      focusableRef.current = node;
+
+      const focusableNode = (node: any);
+
+      focusableNode.__spatialFocusKey = spatialFocusKey;
+      focusableNode.requestTVFocus = () => {
+        focusSelf();
+
+        return document.activeElement === node;
+      };
+    },
+    [focusSelf, focusableRef, spatialFocusKey]
+  );
+
+  React.useEffect(() => {
+    if (props.hasTVPreferredFocus === true) {
+      focusSelf();
+    }
+  }, [focusSelf, props.hasTVPreferredFocus]);
+
   const { component, supportedProps, writingDirection } = useViewProps(
-    props,
+    {
+      ...props,
+      focusable: true
+    },
     forwardedRef,
     hostRef,
-    focusableRef
+    setSpatialRef
   );
 
   return createElement(component, supportedProps, { writingDirection });
@@ -216,7 +247,7 @@ const FocusableView = React.forwardRef((props, forwardedRef) => {
 
 const View: React.AbstractComponent<ViewProps, HTMLElement & PlatformMethods> =
   React.forwardRef((props, forwardedRef) =>
-    props.focusable === true ? (
+    props.focusable === true || props.hasTVPreferredFocus === true ? (
       <FocusableView {...props} ref={forwardedRef} />
     ) : (
       <BaseView {...props} ref={forwardedRef} />
