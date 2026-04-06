@@ -1,11 +1,5 @@
-## Spatial Navigation
+# focus-nav
 
-This package is a fork of Norigin Media's [react-spatial-navigation](https://github.com/NoriginMedia/Norigin-Spatial-Navigation) library. It exdends the original library with additional features, fixes and performance improvements.
+`focus-nav` provides the spatial navigation primitives used by `react-native-web-tv`.
 
-## Key Changes
-
-Will be documented here.
-
-### Additional Features
-
-Will be documented here.
+It is based on Norigin Media's [react-spatial-navigation](https://github.com/NoriginMedia/Norigin-Spatial-Navigation) library, with project-specific fixes and behavior for TV-oriented focus management.
