@@ -14,16 +14,23 @@ const argv = minimist(args);
 const version = argv._[0];
 const skipGit = argv['skip-git'];
 const oneTimeCode = argv.otp;
+const publishNameOverrides = {
+  'react-native-web': 'react-native-web-tv'
+};
+const releaseWorkspaceMatchers = ['react-native-web', 'focus-nav'];
 
-console.log(`Publishing react-native-web@${version}`);
+console.log(`Publishing release @${version}`);
 
-// Collect 'react-native-web' workspaces and package manifests
+// Collect workspaces that are versioned and published as part of a release
 const workspacePaths = require('../package.json').workspaces.reduce(
   (acc, w) => {
     const resolvedPaths = glob.sync(w);
     resolvedPaths.forEach((p) => {
       // Remove duplicates and unrelated packages
-      if (p.includes('react-native-web') && acc.indexOf(p) === -1) {
+      if (
+        releaseWorkspaceMatchers.some((matcher) => p.includes(matcher)) &&
+        acc.indexOf(p) === -1
+      ) {
         acc.push(p);
       }
     });
@@ -41,6 +48,13 @@ const workspaces = workspacePaths.map((dir) => {
   return { directory, packageJson, packageJsonPath };
 });
 
+const writePackageJson = (packageJsonPath, packageJson) => {
+  fs.writeFileSync(
+    packageJsonPath,
+    JSON.stringify(packageJson, null, 2) + '\n'
+  );
+};
+
 // Update each package version and its dependencies
 const workspaceNames = workspaces.map(({ packageJson }) => packageJson.name);
 workspaces.forEach(({ directory, packageJson, packageJsonPath }) => {
@@ -53,10 +67,7 @@ workspaces.forEach(({ directory, packageJson, packageJsonPath }) => {
       packageJson.devDependencies[name] = version;
     }
   });
-  fs.writeFileSync(
-    packageJsonPath,
-    JSON.stringify(packageJson, null, 2) + '\n'
-  );
+  writePackageJson(packageJsonPath, packageJson);
 });
 
 execSync('npm install');
@@ -72,9 +83,26 @@ if (!skipGit) {
 }
 
 // Publish public packages
-workspaces.forEach(({ directory, packageJson }) => {
+workspaces.forEach(({ directory, packageJson, packageJsonPath }) => {
   if (!packageJson.private) {
-    execSync(`cd ${directory} && npm publish --otp ${oneTimeCode}`);
+    const publishName = publishNameOverrides[packageJson.name];
+
+    if (publishName) {
+      const publishedPackageJson = {
+        ...packageJson,
+        name: publishName
+      };
+
+      writePackageJson(packageJsonPath, publishedPackageJson);
+
+      try {
+        execSync(`cd ${directory} && npm publish --otp ${oneTimeCode}`);
+      } finally {
+        writePackageJson(packageJsonPath, packageJson);
+      }
+    } else {
+      execSync(`cd ${directory} && npm publish --otp ${oneTimeCode}`);
+    }
   }
 });
 

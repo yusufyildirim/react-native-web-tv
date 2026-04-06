@@ -8,7 +8,8 @@ module.exports = {
   githubUrl: 'https://github.com/necolas/react-native-web',
   githubBranch: 'master',
   packageName: 'react-native-web',
-  packageUrl: 'https://www.npmjs.com/package/react-native-web',
+  installCommand: 'react-native-web@npm:react-native-web-tv',
+  packageUrl: 'https://www.npmjs.com/package/react-native-web-tv',
   packageVersion: packageJson.version,
 
   enableEditButton: true,
