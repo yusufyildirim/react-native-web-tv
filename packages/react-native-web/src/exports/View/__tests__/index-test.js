@@ -9,6 +9,7 @@ import React from 'react';
 import View from '../';
 import { createEventTarget, setPointerEvent } from 'dom-event-testing-library';
 import { act, render } from '@testing-library/react';
+import { SpatialNavigation } from 'focus-nav';
 
 describe('components/View', () => {
   test('default', () => {
@@ -230,6 +231,35 @@ describe('components/View', () => {
         target.blur();
       });
       expect(onFocus).toBeCalled();
+    });
+  });
+
+  test('focus interaction (spatial navigation)', () => {
+    const onFocus = jest.fn();
+    const ref = React.createRef();
+
+    act(() => {
+      SpatialNavigation.init({
+        useGetBoundingClientRect: true
+      });
+      render(
+        <View
+          focusable={true}
+          id="view:test-focus"
+          onFocus={onFocus}
+          ref={ref}
+        />
+      );
+    });
+
+    act(() => {
+      SpatialNavigation.setFocus('view:test-focus');
+    });
+
+    expect(onFocus).toBeCalled();
+
+    act(() => {
+      SpatialNavigation.destroy();
     });
   });
 
