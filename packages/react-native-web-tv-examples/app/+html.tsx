@@ -23,9 +23,12 @@ export default function Root({ children }: { children: React.ReactNode }) {
 
         {/* Using raw CSS styles as an escape-hatch to ensure the background color never flickers in dark-mode. */}
         <style dangerouslySetInnerHTML={{ __html: responsiveBackground }} />
+
+        {/* Custom styles for the example app */}
+        <style dangerouslySetInnerHTML={{ __html: customStyles }} />
         {/* Add any additional <head> elements that you want globally available on web... */}
       </head>
-      <body style={{ display: 'flex' }}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
@@ -39,3 +42,13 @@ body {
     background-color: #000;
   }
 }`;
+
+const customStyles = `
+  body {
+    display: flex;
+  }
+
+  :focus {
+    outline: none;
+  }
+`;
