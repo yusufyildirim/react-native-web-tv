@@ -85,6 +85,7 @@ const FocusableBox = React.memo(
           ref={forwardRef}
           onFocus={onFocus}
           onPress={onPress}
+          scrollSnapAlign="center"
           style={(state) => [
             {
               width,
@@ -190,6 +191,7 @@ const HList = React.forwardRef(
         renderItem={renderItem}
         horizontal
         contentContainerStyle={styles.hListContainer}
+        snapToAlignment="item"
         {...props}
       />
     );
@@ -221,7 +223,7 @@ const Row = ({
   };
 
   return (
-    <View style={styles.mb5}>
+    <View scrollSnapAlign="start" style={styles.mb5}>
       <TVFocusGuide
         autoFocus={autoFocus !== false}
         style={styles.rowTop}
@@ -368,7 +370,7 @@ const RestoreFocusTestList = () => {
    */
   const onItemPressed = ({ item }: { item: number }) => setRandomize((r) => !r);
   return (
-    <TVFocusGuide autoFocus style={styles.mb5}>
+    <TVFocusGuide autoFocus scrollSnapAlign="start" style={styles.mb5}>
       <Text
         style={[
           styles.rowTitle,
@@ -407,7 +409,7 @@ const RestoreFocusOnSingleDeletionTestList = () => {
   };
 
   return (
-    <TVFocusGuide autoFocus style={styles.mb5}>
+    <TVFocusGuide autoFocus scrollSnapAlign="start" style={styles.mb5}>
       <Text
         style={[
           styles.rowTitle,
@@ -466,7 +468,7 @@ const ContentArea = React.forwardRef(
   ({ sideMenuRef }: ContentAreaProps, forwardedRef: any) => {
     return (
       <TVFocusGuide ref={forwardedRef} autoFocus style={{ flex: 1 }}>
-        <ScrollView>
+        <ScrollView snapToAlignment="item">
           <Text style={styles.pageTitle}>
             Welcome to the TVFocusGuide autoFocus example!
           </Text>
@@ -503,13 +505,15 @@ const ContentArea = React.forwardRef(
 );
 
 const TVFocusGuideAutoFocusExample = () => {
-  const sideMenuRef = React.useRef<React.ElementRef<typeof TVFocusGuide> | null>(
-    null
-  );
+  const sideMenuRef = React.useRef<React.ElementRef<
+    typeof TVFocusGuide
+  > | null>(null);
   const theme = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.BackgroundColor }]}>
+    <View
+      style={[styles.container, { backgroundColor: theme.BackgroundColor }]}
+    >
       <SideMenu ref={sideMenuRef} />
       <ContentArea sideMenuRef={sideMenuRef} />
     </View>

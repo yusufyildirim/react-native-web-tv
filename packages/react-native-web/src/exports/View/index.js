@@ -81,6 +81,7 @@ function useViewProps(props, forwardedRef, hostRef, focusableRef) {
     onSelectionChangeShouldSetResponderCapture,
     onStartShouldSetResponder,
     onStartShouldSetResponderCapture,
+    scrollSnapAlign,
     ...rest
   } = props;
 
@@ -129,7 +130,8 @@ function useViewProps(props, forwardedRef, hostRef, focusableRef) {
   supportedProps.style = [
     styles.view$raw,
     hasTextAncestor && styles.inline,
-    props.style
+    props.style,
+    scrollSnapAlign != null && { scrollSnapAlign }
   ];
   if (props.href != null) {
     component = 'a';

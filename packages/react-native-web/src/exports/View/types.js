@@ -243,5 +243,6 @@ export type ViewProps = {
   focusable?: ?boolean,
   hasTVPreferredFocus?: ?boolean,
   pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto',
-  nativeID?: ?string
+  nativeID?: ?string,
+  scrollSnapAlign?: ?('start' | 'center' | 'end')
 };

@@ -1,10 +1,15 @@
-import { Link } from 'expo-router';
-import { ScrollView, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TVFocusGuideView
+} from 'react-native';
 
 import { Text, View } from '@/components/Themed';
 
 type Example = {
-  href: '/tv-focus-guide-auto-focus';
+  href: '/tv-focus-guide-auto-focus' | '/scroll-snapping';
   title: string;
   description: string;
 };
@@ -14,22 +19,39 @@ const EXAMPLES: Example[] = [
     href: '/tv-focus-guide-auto-focus',
     title: 'TVFocusGuide autoFocus',
     description: 'Focus guide autoFocus usage.'
+  },
+  {
+    href: '/scroll-snapping',
+    title: 'Scroll snapping',
+    description:
+      'snapToAlignment, pagingEnabled, scrollSnapAlign, padding, nesting.'
   }
 ];
 
 export default function Index() {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>react-native-web-tv examples</Text>
-      <View style={styles.list}>
-        {EXAMPLES.map((example) => (
-          <Link key={example.href} href={example.href} style={styles.item}>
-            <Text style={styles.itemTitle}>{example.title}</Text>
-            <Text style={styles.itemDescription}>{example.description}</Text>
-          </Link>
-        ))}
-      </View>
-    </ScrollView>
+    <TVFocusGuideView autoFocus>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>react-native-web-tv examples</Text>
+        <View style={styles.list}>
+          {EXAMPLES.map((example) => (
+            <Pressable
+              key={example.href}
+              onPress={() => router.push(example.href)}
+              style={(state) => [
+                styles.item,
+                state.focused && styles.itemFocused
+              ]}
+            >
+              <Text style={styles.itemTitle}>{example.title}</Text>
+              <Text style={styles.itemDescription}>
+                {example.description}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+      </ScrollView>
+    </TVFocusGuideView>
   );
 }
 
@@ -49,7 +71,11 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
-    borderWidth: StyleSheet.hairlineWidth
+    borderWidth: 2,
+    borderColor: 'transparent'
+  },
+  itemFocused: {
+    borderColor: '#0a84ff'
   },
   itemTitle: {
     fontSize: 18,

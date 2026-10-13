@@ -37,6 +37,8 @@ type ScrollViewProps = {
   refreshControl?: any,
   scrollEnabled?: boolean,
   scrollEventThrottle?: number,
+  snapToAlignment?: 'start' | 'center' | 'end' | 'item',
+  snapToItemPadding?: number,
   stickyHeaderIndices?: Array<number>
 };
 
@@ -553,6 +555,8 @@ class ScrollView extends React.Component<ScrollViewProps> {
       refreshControl,
       stickyHeaderIndices,
       pagingEnabled,
+      snapToAlignment,
+      snapToItemPadding,
       /* eslint-disable */
       forwardedRef,
       keyboardDismissMode,
@@ -620,13 +624,25 @@ class ScrollView extends React.Component<ScrollViewProps> {
     );
 
     const baseStyle = horizontal ? styles.baseHorizontal : styles.baseVertical;
-    const pagingEnabledStyle = horizontal
+    const snapEnabled = pagingEnabled || snapToAlignment === 'item';
+    const snapTypeStyle = horizontal
       ? styles.pagingEnabledHorizontal
       : styles.pagingEnabledVertical;
+    const snapPaddingStyle =
+      snapToItemPadding != null
+        ? horizontal
+          ? { scrollPaddingLeft: snapToItemPadding }
+          : { scrollPaddingTop: snapToItemPadding }
+        : null;
 
     const props = {
       ...other,
-      style: [baseStyle, pagingEnabled && pagingEnabledStyle, this.props.style],
+      style: [
+        baseStyle,
+        snapEnabled && snapTypeStyle,
+        snapPaddingStyle,
+        this.props.style
+      ],
       onTouchStart: this.scrollResponderHandleTouchStart,
       onTouchMove: this.scrollResponderHandleTouchMove,
       onTouchEnd: this.scrollResponderHandleTouchEnd,
@@ -762,10 +778,12 @@ const styles = StyleSheet.create({
     zIndex: 10
   },
   pagingEnabledHorizontal: {
-    scrollSnapType: 'x mandatory'
+    scrollSnapType: 'x mandatory',
+    scrollBehavior: 'smooth'
   },
   pagingEnabledVertical: {
-    scrollSnapType: 'y mandatory'
+    scrollSnapType: 'y mandatory',
+    scrollBehavior: 'smooth'
   },
   pagingEnabledChild: {
     scrollSnapAlign: 'start'

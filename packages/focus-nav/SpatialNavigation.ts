@@ -1449,6 +1449,20 @@ class SpatialNavigationService {
 
       if (this.shouldFocusDOMNode && newComponent.node) {
         newComponent.node.focus({ preventScroll: true });
+        // 'nearest' on either axis is a no-op when the focused element is
+        // already visible in that ancestor's viewport — which is the common
+        // case for the inner scroller in nested vertical+horizontal layouts.
+        // No scroll means scroll-snap never re-engages on that axis. Force a
+        // smooth scroll on both axes so every snap-typed ancestor scrolls,
+        // and let scroll-snap-type/scroll-snap-align dictate the final
+        // resting position (the explicit 'start' is just a trigger).
+        if (typeof newComponent.node.scrollIntoView === 'function') {
+          newComponent.node.scrollIntoView({
+            block: 'center',
+            inline: 'center',
+            behavior: 'smooth'
+          });
+        }
       }
 
       newComponent.onUpdateFocus(true);
